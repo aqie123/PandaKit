@@ -1,13 +1,13 @@
 package oss
 
 import (
+	"bytes"
 	"context"
 	utilFile "github.com/XM-GO/PandaKit/file"
-	"io"
-
 	"github.com/pkg/errors"
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
 	"github.com/qiniu/go-sdk/v7/storage"
+	"io"
 )
 
 type QiniuConfig struct {
@@ -80,9 +80,11 @@ func (q *qiniuOss) PutObj(objectName string, file io.Reader) error {
 	// 构建表单上传的对象
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
-
+	var buf bytes.Buffer
+	newFile := io.TeeReader(file, &buf)
+	all, _ := io.ReadAll(newFile)
 	// 上传文件
-	err := formUploader.Put(context.Background(), &ret, upToken, objectName, file, 0, nil)
+	err := formUploader.Put(context.Background(), &ret, upToken, objectName, &buf, int64(len(all)), nil)
 	if err != nil {
 		return errors.Wrapf(err, "qiniu oss put file fail")
 	}
