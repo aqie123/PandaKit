@@ -15,6 +15,15 @@ func ErrIsNil(err error, msg string, params ...any) {
 	}
 }
 
+func ErrIsNil2(err error) {
+	if err != nil {
+		if err.Error() == "record not found" {
+			return
+		}
+		panic(any(NewBizErr(fmt.Sprintf(err.Error()))))
+	}
+}
+
 func ErrIsNilAppendErr(err error, msg string) {
 	if err != nil {
 		panic(any(NewBizErr(fmt.Sprintf(msg, err.Error()))))
