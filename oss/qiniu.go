@@ -80,12 +80,21 @@ func (q *qiniuOss) PutObj(objectName string, file io.Reader) error {
 	// 构建表单上传的对象
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
-	var buf bytes.Buffer
+	var buf, buf2 bytes.Buffer
+
+	// 读取文件到缓存
 	newFile := io.TeeReader(file, &buf)
+	// 读取文件大小
 	all, _ := io.ReadAll(newFile)
+	// fileLen, _ := io.Copy(os.Stdout, newFile)
+	buf2 = buf
 	// 上传文件
 	err := formUploader.Put(context.Background(), &ret, upToken, objectName, &buf, int64(len(all)), nil)
 	if err != nil {
+		if err.Error() == "file exists" {
+			q.Del(objectName)
+			err = formUploader.Put(context.Background(), &ret, upToken, objectName, &buf2, int64(len(all)), nil)
+		}
 		return errors.Wrapf(err, "qiniu oss put file fail")
 	}
 	return nil
