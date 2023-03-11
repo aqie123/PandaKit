@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/XM-GO/PandaKit/biz"
 	"github.com/XM-GO/PandaKit/starter"
+	"github.com/XM-GO/PandaKit/time2"
 	"strconv"
 
 	"strings"
@@ -22,7 +23,7 @@ type Model struct {
 
 // 设置基础信息. 如创建时间，修改时间，创建者，修改者信息
 func (m *Model) SetBaseInfo(account *LoginAccount) {
-	nowTime := time.Now()
+	nowTime := time2.JSONTime{Time: time.Now()}
 	isCreate := m.Id == 0
 	if isCreate {
 		m.CreatedAt = nowTime
