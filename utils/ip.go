@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"github.com/XM-GO/PandaKit/httpclient"
 	"net"
 )
 
@@ -10,12 +9,15 @@ const ipurl = "https://ip.cn/api/index"
 
 const UNKNOWN = "XX XX"
 
-//GetRealAddressByIP 获取真实地址
+// GetRealAddressByIP 获取真实地址
 func GetRealAddressByIP(ip string) string {
 	if ip == "127.0.0.1" || ip == "localhost" {
 		return "内部IP"
+	} else {
+		return ""
 	}
-	url := fmt.Sprintf("%s?ip=%s&type=1", ipurl, ip)
+
+	/*url := fmt.Sprintf("%s?ip=%s&type=1", ipurl, ip)
 
 	res := httpclient.NewRequest(url).Get()
 	if res == nil || res.StatusCode != 200 {
@@ -25,7 +27,7 @@ func GetRealAddressByIP(ip string) string {
 	if err != nil {
 		return UNKNOWN
 	}
-	return toMap["address"].(string)
+	return toMap["address"].(string)*/
 }
 
 // 获取局域网ip地址
