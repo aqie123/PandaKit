@@ -101,9 +101,9 @@ func (j *JWT) ParseToken(tokenString string) (*Claims, error) {
 
 // 更新token
 func (j *JWT) RefreshToken(tokenString string) (string, error) {
-	jwt.TimeFunc = func() time.Time {
+	/*jwt.TimeFunc = func() time.Time {
 		return time.Unix(0, 0)
-	}
+	}*/
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.SignedKey, nil
 	})
