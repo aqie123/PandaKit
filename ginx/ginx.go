@@ -58,6 +58,15 @@ func PathParamInt(g *gin.Context, pm string) int {
 	return value
 }
 
+// 获取query参数
+func Query(g *gin.Context, pm string, defaultString string) string {
+	qv := g.Query(pm)
+	if qv == "" {
+		return defaultString
+	}
+	return qv
+}
+
 // 文件下载
 func Download(g *gin.Context, filename string) {
 	g.Writer.Header().Add("success", "true")
