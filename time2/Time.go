@@ -16,7 +16,7 @@ type JSONTime struct {
 
 func (t *JSONTime) UnmarshalJSON(data []byte) (err error) {
 	if len(data) == 2 {
-		*t = JSONTime{Time: time.Time{}}
+		*t = JSONTime{Time: time.Now()}
 		return
 	}
 	loc, _ := time.LoadLocation("Asia/Shanghai")

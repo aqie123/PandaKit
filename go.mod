@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-redis/redis v6.15.9+incompatible
-	github.com/gorilla/websocket v1.4.2
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	gopkg.in/yaml.v3 v3.0.0
 	gorm.io/gorm v1.22.3
